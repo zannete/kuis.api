@@ -19,4 +19,4 @@ app  = falcon.API(middleware=[
 app.add_route("/kuis", KuisListener())
 app.add_route("/play/{kuis_id}", PlayListener())
 app.add_route("/display/{kuis_id}/{user_id}", DisplayListener())
-app.add_route("/jawaban/kuis/{kuis_id}", UpdateListener())
+app.add_route("/kuis", UpdateListener())
