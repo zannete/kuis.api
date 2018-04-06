@@ -20,7 +20,6 @@ class KuisListener:
         try:
             cred         = credentials.Certificate(os.path.join(os.getcwd(), "serviceAccountKey.json"))
             firebase_app = firebase_admin.initialize_app(cred, {
-            #'storageBucket': 'kuis.zannete.com',
             'databaseURL': 'https://kuis-zannete.firebaseio.com/'
           })
         except ValueError:
