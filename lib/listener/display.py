@@ -9,6 +9,10 @@ from firebase_admin import db
 
 class DisplayListener:
     def on_get(self, req, res, kuis_id, user_id):
+        if not "facebookexternalhit/1.1" in req.user_agent:
+            raise falcon.HTTPMovedPermanently("https://kuis.zannete.com/kuis/{}".format(kuis_id))
+    
+    def on_get(self, req, res, kuis_id, user_id):
         
         try:
             cred         = credentials.Certificate(os.path.join(os.getcwd(), "serviceAccountKey.json"))
