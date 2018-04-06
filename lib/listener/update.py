@@ -28,7 +28,7 @@ class UpdateListener(object):
       os.remove(os.path.join(os.getcwd(), "tmpImage", n_image_data))
       return b_image_data.public_url
 
-  def on_post(self, req, res, kuis_id):
+  def on_patch(self, req, res, kuis_id):
 
     doc            = req.context["doc"]
     judul          = doc["judul"]
