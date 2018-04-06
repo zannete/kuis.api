@@ -1,7 +1,6 @@
 import urllib
 import hashlib
 import os
-import random
 
 import falcon
 import requests
@@ -58,7 +57,6 @@ class UpdateListener:
         kuis_ref.child("profileY").set({"profileY":profile_y})
         kuis_ref.child("profileWidth").set({"profileWidth":profile_width})
         kuis_ref.child("profileHeight").set({"profileHeight":profile_height})
-        update_list_jawaban = input("update_list_jawaban: ")
         url_list_jawaban = []
         for jawaban in list_jawaban:
             url_jawaban = self.save_image(bucket, "jawabanImage", jawaban)
