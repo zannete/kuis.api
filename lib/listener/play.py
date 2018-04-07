@@ -50,8 +50,29 @@ class PlayListener:
         print("Re-Processing: {}".format(reprocess))
         if reprocess:
             kuis_ref             = db.reference("/kuis/{}".format(kuis_id))
+            list_jawaban         = kuis_ref.child("listJawaban").get()
             profile_x            = int(kuis_ref.child("profileX").get())
             profile_y            = int(kuis_ref.child("profileY").get())
             profile_width        = int(kuis_ref.child("profileWidth").get())
             profile_height       = int(kuis_ref.child("profileHeight").get())
+            url_terpilih_jawaban = list_jawaban[random.randrange(0, len(list_jawaban))]
+            n_terpilih_jawaban   = "{}{}".format(user_id, url_terpilih_jawaban)
+            n_terpilih_jawaban   = "{}.jpg".format(hashlib.sha256(n_terpilih_jawaban.encode("utf-8")).hexdigest())
+            urllib.request.urlretrieve(url_terpilih_jawaban, os.path.join(os.getcwd(), "tmpImage", n_terpilih_jawaban))
+
+            i_profile_picture  = Image.open(open(os.path.join(os.getcwd(), "tmpImage", n_profile_picture), "rb"))
+            i_profile_picture  = resizeimage.resize_cover(i_profile_picture, [profile_width, profile_height])
+            i_terpilih_jawaban = Image.open(open(os.path.join(os.getcwd(), "tmpImage", n_terpilih_jawaban), "rb"))
+            i_terpilih_jawaban.paste(i_profile_picture, (profile_x, profile_y, profile_x + profile_width, profile_y + profile_height))
+            i_terpilih_jawaban.save(os.path.join(os.getcwd(), "tmpImage", n_terpilih_jawaban))
+
+            b_terpilih_jawaban = bucket.blob("{}/{}".format("jawaban", n_terpilih_jawaban))
+            b_terpilih_jawaban.upload_from_file(open(os.path.join(os.getcwd(), "tmpImage", n_terpilih_jawaban), "rb"), content_type="image/jpeg")
+            b_terpilih_jawaban.make_public()
+            url_terpilih_jawaban = b_terpilih_jawaban.public_url
+
+            jawaban_ref = db.reference("/jawaban")
+            jawaban_ref.child(kuis_id).child(user_id).set(url_terpilih_jawaban)
+            os.remove(os.path.join(os.getcwd(), "tmpImage", n_terpilih_jawaban))
+        os.remove(os.path.join(os.getcwd(), "tmpImage", n_profile_picture))
 
