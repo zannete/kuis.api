@@ -15,7 +15,7 @@ grpcio==1.10.0
 gunicorn==19.7.1
 idna==2.6
 Pillow==5.0.0
-protobuf==3.5.2.post1
+protobuf==3.18.3
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
 python-mimeparse==1.6.0
